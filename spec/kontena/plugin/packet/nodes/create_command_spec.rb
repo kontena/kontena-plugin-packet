@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'kontena/plugin/digital_ocean_command'
+require 'kontena/plugin/packet_command'
 
-describe Kontena::Plugin::DigitalOcean::Nodes::CreateCommand do
+describe Kontena::Plugin::Packet::Nodes::CreateCommand do
 
   let(:subject) do
     described_class.new(File.basename($0))
@@ -30,11 +30,12 @@ describe Kontena::Plugin::DigitalOcean::Nodes::CreateCommand do
 
     it 'passes options to provisioner' do
       options = [
-        '--token', 'secretone'
+        '--token', 'secretone',
+        '--project', 'some-id'
       ]
       expect(subject).to receive(:provisioner).with(client, 'secretone').and_return(provisioner)
       expect(provisioner).to receive(:run!).with(
-        hash_including(ssh_key: '~/.ssh/id_rsa.pub')
+        hash_including(project: 'some-id')
       )
       subject.run(options)
     end

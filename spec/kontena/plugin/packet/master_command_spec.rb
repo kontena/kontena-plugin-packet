@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'kontena/plugin/digital_ocean_command'
+require 'kontena/plugin/packet_command'
 
-describe Kontena::Plugin::DigitalOcean::NodeCommand do
+describe Kontena::Plugin::Packet::MasterCommand do
 
   let(:subject) do
     described_class.new(File.basename($0))
@@ -17,18 +17,6 @@ describe Kontena::Plugin::DigitalOcean::NodeCommand do
     it 'raises help wanted for create' do
       expect {
         subject.run(['create', '--help'])
-      }.to raise_error(Clamp::HelpWanted)
-    end
-
-    it 'raises help wanted for restart' do
-      expect {
-        subject.run(['restart', '--help'])
-      }.to raise_error(Clamp::HelpWanted)
-    end
-
-    it 'raises help wanted for terminate' do
-      expect {
-        subject.run(['terminate', '--help'])
       }.to raise_error(Clamp::HelpWanted)
     end
 

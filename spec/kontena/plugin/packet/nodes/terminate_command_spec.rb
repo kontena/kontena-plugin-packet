@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'kontena/plugin/digital_ocean_command'
+require 'kontena/plugin/packet_command'
 
-describe Kontena::Plugin::DigitalOcean::Nodes::TerminateCommand do
+describe Kontena::Plugin::Packet::Nodes::TerminateCommand do
 
   let(:subject) do
     described_class.new(File.basename($0))
@@ -30,6 +30,7 @@ describe Kontena::Plugin::DigitalOcean::Nodes::TerminateCommand do
     it 'passes options to provisioner' do
       options = [
         '--token', 'secretone',
+        '--project', 'some-id',
         'my-node'
       ]
       expect(subject).to receive(:destroyer).with(client, 'secretone').and_return(provisioner)

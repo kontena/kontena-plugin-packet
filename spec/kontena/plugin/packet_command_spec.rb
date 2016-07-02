@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'kontena/plugin/digital_ocean_command'
+require 'kontena/plugin/packet_command'
 
-describe Kontena::Plugin::DigitalOceanCommand do
+describe Kontena::Plugin::PacketCommand do
 
   let(:subject) do
     described_class.new(File.basename($0))

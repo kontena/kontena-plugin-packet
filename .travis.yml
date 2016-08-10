@@ -1,0 +1,16 @@
+language: ruby
+rvm:
+  - 2.0.0-p648
+  - 2.1.8
+  - 2.2.3
+  - 2.3.1
+env:
+  - secure: "cUyvZs8EwaLZrE1xQFNTKq4Ft6evckt2qeU3lB0PuNONYUfRli2RqOUjD8So7yiPYucNKlqJ2u641WRV4AYY8TUnu2jKFGlEEmZuYkWj0jv6HAy02vWt+d4fjgq6R4+TCW+7wKQcrN8zYH9KJImPcN9S01XqaTm4oHsaZZk4dRWL7PnKHAnnxPnpSpytF2jgtETmfOQWAfECOtR5+ypFmmmoCz+6/RPO6Ys+mIL0MbbJQxqq+FEothgoZD92cR/kzZI4YIwoijw54JlIIpRlK9Y1szfC13LxaCujYfic2ny7HnfV8tfl7lt/OVE/NQCYJfK4Bao73zMemQ2th80O68WzF9px5p5gRrPhumjT8Oxf9MTEcH46PDQprznZW0UnZF51oPGDQWDIFwLgiokalKgzR/tPHM8sm/kJs6BPlTUHxkRDWWfiSR+rIz8t94HSBK2N9mCdesIM9oNUx8tUbEvQXmVOGmpRivHr2Fa5rtv0/dbXW0Y78XyF7WNPBIeuFwDQLTTwtzbYxuhC6V0q9yV9Tos2fRqzIn1Ddc01xOjRVfnz8J8cw1su7a0SarXZgnjzWuxU6N/xMyh4QNKvJPbUAMKi243tN+QyG0Kq8nT4SL525khZBoHx1wr9sRDSjd9vgHi51/cV3YGh+9FXsFJ8kkRCE825k/gnZxo3JvA="
+cache: bundler
+script: bundle install && bundle exec rspec spec/
+deploy:
+  provider: rubygems
+  api_key: $GEM_TOKEN
+  gem: kontena-plugin-aws
+  on:
+    tags: true

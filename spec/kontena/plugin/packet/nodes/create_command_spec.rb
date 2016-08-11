@@ -18,6 +18,9 @@ describe Kontena::Plugin::Packet::Nodes::CreateCommand do
   describe '#run' do
     before(:each) do
       allow(subject).to receive(:require_current_grid).and_return('test-grid')
+      allow(subject).to receive(:require_api_url).and_return('http://master.example.com')
+      allow(subject).to receive(:api_url).and_return('http://master.example.com')
+      allow(subject).to receive(:require_token).and_return('12345')
       allow(subject).to receive(:fetch_grid).and_return({})
       allow(subject).to receive(:client).and_return(client)
     end

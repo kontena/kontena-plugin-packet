@@ -1,3 +1,4 @@
+require 'packet'
 require 'kontena/machine/random_name'
 require 'kontena/machine/cert_helper'
 require_relative 'packet/packet_common'

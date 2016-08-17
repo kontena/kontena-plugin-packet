@@ -32,17 +32,15 @@ module Kontena
             end
           end
 
-          userdata_vars = {
+          name = generate_name
+
+          userdata_vars = opts.merge(
             ssl_cert: ssl_cert,
-            auth_server: opts[:auth_server],
-            version: opts[:version],
-            vault_secret: opts[:vault_secret],
-            vault_iv: opts[:vault_iv],
-            mongodb_uri: opts[:mongodb_uri]
-          }
+            server_name: name.sub('kontena-master-', '')
+          )
 
           device = project.new_device(
-            hostname: generate_name,
+            hostname: name,
             facility: facility.to_hash,
             operating_system: os.to_hash,
             plan: plan.to_hash,
@@ -73,8 +71,12 @@ module Kontena
             sleep 5 until master_running?
           end
 
-          puts "Kontena Master is now running at #{master_url}"
-          puts "Use #{"kontena login --name=#{device.hostname.sub('kontena-master-', '')} #{master_url}".colorize(:light_black)} to complete Kontena Master setup"
+          puts "Kontena Master is now running at #{master_url}".colorize(:green)
+          {
+            name: name.sub('kontena-master-', ''),
+            public_ip: public_ip['address'],
+            code: opts[:initial_admin_code]
+          }
         end
 
         def generate_name

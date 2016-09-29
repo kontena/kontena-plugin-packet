@@ -1,11 +1,10 @@
-require 'shell-spinner'
-
 module Kontena
   module Machine
     module Packet
       class NodeRestarter
         include RandomName
         include PacketCommon
+        include Kontena::Cli::ShellSpinner
 
         attr_reader :client
 
@@ -21,7 +20,7 @@ module Kontena
           abort("Device #{name.colorize(:cyan)} not found in Packet") unless device
           abort("Your version of 'packethost' gem does not support rebooting servers") unless client.respond_to?(:reboot_device)
 
-          ShellSpinner "Restarting Packet device #{device.hostname.colorize(:cyan)} " do
+          spinner "Restarting Packet device #{device.hostname.colorize(:cyan)} " do
             begin
               response = client.reboot_device(device)
               raise unless response.success?
@@ -31,7 +30,7 @@ module Kontena
             sleep 5
             until device && device.state == :active
               device = find_device(project.id, device.hostname) rescue nil
-              sleep 5
+              sleep 1
             end
           end
         end

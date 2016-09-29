@@ -1,5 +1,3 @@
-require 'shell-spinner'
-
 module Kontena
   module Machine
     module Packet
@@ -7,6 +5,7 @@ module Kontena
         include RandomName
         include Machine::CertHelper
         include PacketCommon
+        include Kontena::Cli::ShellSpinner
 
         attr_reader :client, :http_client
 
@@ -27,7 +26,7 @@ module Kontena
             abort('Invalid ssl cert') unless File.exists?(File.expand_path(opts[:ssl_cert]))
             ssl_cert = File.read(File.expand_path(opts[:ssl_cert]))
           else
-            ShellSpinner "Generating self-signed SSL certificate" do
+            spinner "Generating self-signed SSL certificate" do
               ssl_cert = generate_self_signed_cert
             end
           end
@@ -49,7 +48,7 @@ module Kontena
             userdata: user_data(userdata_vars, 'cloudinit_master.yml')
           )
 
-          ShellSpinner "Creating Packet device #{device.hostname.colorize(:cyan)} " do
+          spinner "Creating Packet device #{device.hostname.colorize(:cyan)} " do
             api_retry "Packet API reported an error, please try again" do
               response = client.create_device(device)
               raise response.body unless response.success?
@@ -67,11 +66,14 @@ module Kontena
           Excon.defaults[:ssl_verify_peer] = false
           @http_client = Excon.new("#{master_url}", :connect_timeout => 10)
 
-          ShellSpinner "Waiting for #{device.hostname.colorize(:cyan)} to start (estimate 4 minutes)" do
-            sleep 5 until master_running?
+          spinner "Waiting for #{device.hostname.colorize(:cyan)} to start (estimate 4 minutes)" do
+            sleep 0.5 until master_running?
           end
 
+          puts
           puts "Kontena Master is now running at #{master_url}".colorize(:green)
+          puts
+
           {
             name: name.sub('kontena-master-', ''),
             public_ip: public_ip['address'],

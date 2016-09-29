@@ -1,11 +1,10 @@
-require 'shell-spinner'
-
 module Kontena
   module Machine
     module Packet
       class NodeProvisioner
         include RandomName
         include PacketCommon
+        include Kontena::Cli::ShellSpinner
 
         attr_reader :client, :api_client
 
@@ -40,7 +39,7 @@ module Kontena
             userdata: user_data(userdata_vars, 'cloudinit.yml')
           )
 
-          ShellSpinner "Creating Packet device #{device.hostname.colorize(:cyan)} " do
+          spinner "Creating Packet device #{device.hostname.colorize(:cyan)} " do
             api_retry "Packet API reported an error, please try again" do
               response = client.create_device(device)
               raise response.body unless response.success?
@@ -48,13 +47,13 @@ module Kontena
 
             until device && [:active, :provisioning, :powering_on].include?(device.state)
               device = find_device(project.id, device.hostname) rescue nil
-              sleep 5
+              sleep 1
             end
           end
 
           node = nil
-          ShellSpinner "Waiting for node #{device.hostname.colorize(:cyan)} join to grid #{opts[:grid].colorize(:cyan)} (estimate 4 minutes) " do
-            sleep 2 until node = device_exists_in_grid?(opts[:grid], device)
+          spinner "Waiting for node #{device.hostname.colorize(:cyan)} join to grid #{opts[:grid].colorize(:cyan)} (estimate 4 minutes) " do
+            sleep 0.5 until node = device_exists_in_grid?(opts[:grid], device)
           end
           set_labels(node, ["region=#{opts[:facility]}", "provider=packet"])
         end

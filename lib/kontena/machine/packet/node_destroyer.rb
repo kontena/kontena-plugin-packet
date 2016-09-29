@@ -1,11 +1,10 @@
-require 'shell-spinner'
-
 module Kontena
   module Machine
     module Packet
       class NodeDestroyer
         include RandomName
         include PacketCommon
+        include Kontena::Cli::ShellSpinner
 
         attr_reader :client, :api_client
 
@@ -20,7 +19,7 @@ module Kontena
           device = client.list_devices(project_id).find{|d| d.hostname == name}
           abort("Device #{name.colorize(:cyan)} not found in Packet") unless device
 
-          ShellSpinner "Terminating Packet device #{name.colorize(:cyan)} " do
+          spinner "Terminating Packet device #{name.colorize(:cyan)} " do
             begin
               response = client.delete_device(device.id)
               raise unless response.success?
@@ -31,7 +30,7 @@ module Kontena
 
           node = api_client.get("grids/#{grid['id']}/nodes")['nodes'].find{|n| n['name'] == name}
           if node
-            ShellSpinner "Removing node #{name.colorize(:cyan)} from grid #{grid['name'].colorize(:cyan)} " do
+            spinner "Removing node #{name.colorize(:cyan)} from grid #{grid['name'].colorize(:cyan)} " do
               api_client.delete("grids/#{grid['id']}/nodes/#{name}")
             end
           end

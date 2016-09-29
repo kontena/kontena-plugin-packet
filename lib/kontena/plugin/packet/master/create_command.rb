@@ -4,6 +4,7 @@ module Kontena::Plugin::Packet::Master
   class CreateCommand < Kontena::Command
     include Kontena::Cli::Common
 
+    option "--name", "[NAME]", "Set master name"
     option "--token", "TOKEN", "Packet API token", required: true
     option "--project", "PROJECT ID", "Packet project id", required: true
     option "--ssl-cert", "PATH", "SSL certificate file (optional)"

@@ -5,7 +5,7 @@ module Kontena
         include RandomName
         include Machine::CertHelper
         include PacketCommon
-        include Kontena::Cli::ShellSpinner
+        include Kontena::Cli::Common
 
         attr_reader :client, :http_client
 
@@ -70,9 +70,7 @@ module Kontena
             sleep 0.5 until master_running?
           end
 
-          puts
-          puts "Kontena Master is now running at #{master_url}".colorize(:green)
-          puts
+          vfakespinner "Kontena Master is now running at #{master_url}".colorize(:green)
 
           {
             name: name.sub('kontena-master-', ''),

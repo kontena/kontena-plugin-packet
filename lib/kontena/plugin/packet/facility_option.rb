@@ -23,7 +23,7 @@ module Kontena::Plugin::Packet
             end
             facilities.first.code
           else
-            Kontena.prompt.select "Packet plan:" do |menu|
+            Kontena.prompt.select "Packet facility:" do |menu|
               facilities.each do |facility|
                 if facility.features.empty?
                   feats = ""

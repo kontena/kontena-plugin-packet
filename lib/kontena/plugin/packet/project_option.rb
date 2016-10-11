@@ -16,14 +16,14 @@ module Kontena::Plugin::Packet
 
           case projects.size
           when 0
-            abort 'You do not have access to any Projects on Packet'
+            abort 'You do not have access to any projects on Packet'
           when 1
             unless Kontena.prompt.yes?("You have access to project '#{projects.first.name}'. Use?")
               abort 'Aborted'
             end
             projects.first.id
           else
-            Kontena.prompt.select "Packet Project:" do |menu|
+            Kontena.prompt.select "Packet project:" do |menu|
               projects.each do |project|
                 menu.choice project.name, project.id
               end

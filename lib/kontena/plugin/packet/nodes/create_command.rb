@@ -1,15 +1,21 @@
+require_relative '../token_option'
+require_relative '../project_option'
+require_relative '../type_option'
+require_relative '../facility_option'
+
 module Kontena::Plugin::Packet::Nodes
   class CreateCommand < Kontena::Command
     include Kontena::Cli::Common
     include Kontena::Cli::GridOptions
+    include Kontena::Plugin::Packet::TokenOption
+    include Kontena::Plugin::Packet::ProjectOption
+    include Kontena::Plugin::Packet::TypeOption
+    include Kontena::Plugin::Packet::FacilityOption
 
     parameter "[NAME]", "Node name"
-    option "--token", "TOKEN", "Packet API token", required: true
-    option "--project", "PROJECT ID", "Packet project id", required: true
-    option "--type", "TYPE", "Server type (baremetal_0, baremetal_1, ..)", default: 'baremetal_0', attribute_name: :plan
-    option "--facility", "FACILITY CODE", "Facility", default: 'ams1'
+
     option "--billing", "BILLING", "Billing cycle", default: 'hourly'
-    option "--ssh-key", "PATH", "Path to ssh public key (optional)"
+    option "--ssh-key", "PATH", "Path to ssh public key", default: File.join(Dir.home, '.ssh', 'id_rsa.pub')
     option "--version", "VERSION", "Define installed Kontena version", default: 'latest'
 
     def execute

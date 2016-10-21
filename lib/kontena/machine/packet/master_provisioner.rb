@@ -75,7 +75,8 @@ module Kontena
           {
             name: name.sub('kontena-master-', ''),
             public_ip: public_ip['address'],
-            code: opts[:initial_admin_code]
+            code: opts[:initial_admin_code],
+            provider: 'packet'
           }
         end
 

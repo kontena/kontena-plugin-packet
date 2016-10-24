@@ -24,7 +24,7 @@ module Kontena::Plugin::Packet::Nodes
 
       require_relative '../../../machine/packet'
       grid = fetch_grid
-      provisioner = provisioner(client(require_token), token)
+      provisioner = provisioner(client, token)
       provisioner.run!(
         master_uri: api_url,
         grid_token: grid['token'],
@@ -46,7 +46,7 @@ module Kontena::Plugin::Packet::Nodes
 
     # @return [Hash]
     def fetch_grid
-      client(require_token).get("grids/#{current_grid}")
+      client.get("grids/#{current_grid}")
     end
   end
 end

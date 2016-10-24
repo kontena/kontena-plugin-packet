@@ -6,7 +6,6 @@ module Kontena::Plugin::Packet
       base.class_eval do
         def default_facility
           require 'packet'
-
           client = Packet::Client.new(self.token || (self.respond_to?(:default_token) && self.default_token))
 
           facilities = []

@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'kontena/plugin/packet_command'
+require 'ostruct'
 
 describe Kontena::Plugin::Packet::Master::CreateCommand do
 
@@ -11,19 +12,27 @@ describe Kontena::Plugin::Packet::Master::CreateCommand do
     spy(:provisioner)
   end
 
-  describe '#run' do
-    it 'raises usage error if no options are defined' do
-      expect {
-        subject.run([])
-      }.to raise_error(Clamp::UsageError)
-    end
+  before(:each) do
+    subject.config.servers << Kontena::Cli::Config::Server.new(
+      name: 'foo',
+      url: 'http://foo',
+      token: Kontena::Cli::Config::Token.new(
+        access_token: 'foo'
+      ),
+      account: :master
+    )
+    subject.config.current_server='foo'
+  end
 
+  describe '#run' do
     it 'passes options to provisioner' do
       options = [
         '--token', 'secretone',
         '--project', 'some-id',
         '--no-prompt',
-        '--skip-auth-provider'
+        '--skip-auth-provider',
+        '--name', 'some_name',
+        '--facility', 'some_facility'
       ]
       expect(subject).to receive(:provisioner).with('secretone').and_return(provisioner)
       expect(provisioner).to receive(:run!).with(

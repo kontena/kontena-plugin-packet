@@ -1,4 +1,4 @@
-require 'shell-spinner'
+require 'json'
 
 module Kontena
   module Machine
@@ -7,6 +7,7 @@ module Kontena
         include RandomName
         include Machine::CertHelper
         include PacketCommon
+        include Kontena::Cli::Common
 
         attr_reader :client, :http_client
 
@@ -27,22 +28,20 @@ module Kontena
             abort('Invalid ssl cert') unless File.exists?(File.expand_path(opts[:ssl_cert]))
             ssl_cert = File.read(File.expand_path(opts[:ssl_cert]))
           else
-            ShellSpinner "Generating self-signed SSL certificate" do
+            spinner "Generating a self-signed SSL certificate" do
               ssl_cert = generate_self_signed_cert
             end
           end
 
-          userdata_vars = {
+          name = generate_name
+
+          userdata_vars = opts.merge(
             ssl_cert: ssl_cert,
-            auth_server: opts[:auth_server],
-            version: opts[:version],
-            vault_secret: opts[:vault_secret],
-            vault_iv: opts[:vault_iv],
-            mongodb_uri: opts[:mongodb_uri]
-          }
+            server_name: name.sub('kontena-master-', '')
+          )
 
           device = project.new_device(
-            hostname: generate_name,
+            hostname: name,
             facility: facility.to_hash,
             operating_system: os.to_hash,
             plan: plan.to_hash,
@@ -51,7 +50,7 @@ module Kontena
             userdata: user_data(userdata_vars, 'cloudinit_master.yml')
           )
 
-          ShellSpinner "Creating Packet device #{device.hostname.colorize(:cyan)} " do
+          spinner "Creating a Packet device #{device.hostname.colorize(:cyan)} " do
             api_retry "Packet API reported an error, please try again" do
               response = client.create_device(device)
               raise response.body unless response.success?
@@ -69,12 +68,24 @@ module Kontena
           Excon.defaults[:ssl_verify_peer] = false
           @http_client = Excon.new("#{master_url}", :connect_timeout => 10)
 
-          ShellSpinner "Waiting for #{device.hostname.colorize(:cyan)} to start (estimate 4 minutes)" do
-            sleep 5 until master_running?
+          spinner "Waiting for #{device.hostname.colorize(:cyan)} to start (estimate 4 minutes)" do
+            sleep 0.5 until master_running?
           end
 
-          puts "Kontena Master is now running at #{master_url}"
-          puts "Use #{"kontena login --name=#{device.hostname.sub('kontena-master-', '')} #{master_url}".colorize(:light_black)} to complete Kontena Master setup"
+          master_version = nil
+          spinner "Retrieving Kontena Master version" do
+            master_version = JSON.parse(http_client.get(path: '/').body)["version"] rescue nil
+          end
+
+          spinner "Kontena Master #{master_version} is now running at #{master_url}".colorize(:green)
+
+          {
+            name: name.sub('kontena-master-', ''),
+            public_ip: public_ip['address'],
+            code: opts[:initial_admin_code],
+            provider: 'packet',
+            version: master_version
+          }
         end
 
         def generate_name

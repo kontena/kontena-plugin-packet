@@ -88,8 +88,11 @@ coreos:
             --link kontena-server-mongo:mongodb \
             -e MONGODB_URI=mongodb://mongodb:27017/kontena_server \
 <% end -%>
-<% if auth_server %>
-            -e AUTH_API_URL=<%= auth_server %> \
+<% if server_name -%>
+            -e SERVER_NAME=<%= server_name %> \
+<% end -%>
+<% if initial_admin_code -%>
+            -e INITIAL_ADMIN_CODE=<%= initial_admin_code %> \
 <% end -%>
             -e VAULT_KEY=${KONTENA_VAULT_KEY} -e VAULT_IV=${KONTENA_VAULT_IV} \
             kontena/server:${KONTENA_VERSION}

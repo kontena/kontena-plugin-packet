@@ -21,7 +21,9 @@ describe Kontena::Plugin::Packet::Master::CreateCommand do
     it 'passes options to provisioner' do
       options = [
         '--token', 'secretone',
-        '--project', 'some-id'
+        '--project', 'some-id',
+        '--no-prompt',
+        '--skip-auth-provider'
       ]
       expect(subject).to receive(:provisioner).with('secretone').and_return(provisioner)
       expect(provisioner).to receive(:run!).with(

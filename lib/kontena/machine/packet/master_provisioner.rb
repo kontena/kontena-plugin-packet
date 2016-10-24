@@ -1,3 +1,5 @@
+require 'json'
+
 module Kontena
   module Machine
     module Packet
@@ -26,7 +28,7 @@ module Kontena
             abort('Invalid ssl cert') unless File.exists?(File.expand_path(opts[:ssl_cert]))
             ssl_cert = File.read(File.expand_path(opts[:ssl_cert]))
           else
-            spinner "Generating self-signed SSL certificate" do
+            spinner "Generating a self-signed SSL certificate" do
               ssl_cert = generate_self_signed_cert
             end
           end
@@ -48,7 +50,7 @@ module Kontena
             userdata: user_data(userdata_vars, 'cloudinit_master.yml')
           )
 
-          spinner "Creating Packet device #{device.hostname.colorize(:cyan)} " do
+          spinner "Creating a Packet device #{device.hostname.colorize(:cyan)} " do
             api_retry "Packet API reported an error, please try again" do
               response = client.create_device(device)
               raise response.body unless response.success?
@@ -70,13 +72,19 @@ module Kontena
             sleep 0.5 until master_running?
           end
 
-          vfakespinner "Kontena Master is now running at #{master_url}".colorize(:green)
+          master_version = nil
+          spinner "Retrieving Kontena Master version" do
+            master_version = JSON.parse(http_client.get(path: '/').body)["version"] rescue nil
+          end
+
+          spinner "Kontena Master #{master_version} is now running at #{master_url}".colorize(:green)
 
           {
             name: name.sub('kontena-master-', ''),
             public_ip: public_ip['address'],
             code: opts[:initial_admin_code],
-            provider: 'packet'
+            provider: 'packet',
+            version: master_version
           }
         end
 

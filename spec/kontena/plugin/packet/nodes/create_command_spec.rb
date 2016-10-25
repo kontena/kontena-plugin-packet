@@ -25,16 +25,11 @@ describe Kontena::Plugin::Packet::Nodes::CreateCommand do
       allow(subject).to receive(:client).and_return(client)
     end
 
-    it 'raises usage error if no options are defined' do
-      expect {
-        subject.run([])
-      }.to raise_error(Clamp::UsageError)
-    end
-
     it 'passes options to provisioner' do
       options = [
         '--token', 'secretone',
-        '--project', 'some-id'
+        '--project', 'some-id',
+        '--facility', 'some_facility'
       ]
       expect(subject).to receive(:provisioner).with(client, 'secretone').and_return(provisioner)
       expect(provisioner).to receive(:run!).with(

@@ -1,17 +1,21 @@
 require 'securerandom'
+require_relative '../token_option'
+require_relative '../project_option'
+require_relative '../type_option'
+require_relative '../facility_option'
 
 module Kontena::Plugin::Packet::Master
   class CreateCommand < Kontena::Command
     include Kontena::Cli::Common
+    include Kontena::Plugin::Packet::TokenOption
+    include Kontena::Plugin::Packet::ProjectOption
+    include Kontena::Plugin::Packet::TypeOption
+    include Kontena::Plugin::Packet::FacilityOption
 
     option "--name", "[NAME]", "Set master name"
-    option "--token", "TOKEN", "Packet API token", required: true
-    option "--project", "PROJECT ID", "Packet project id", required: true
     option "--ssl-cert", "PATH", "SSL certificate file (optional)"
-    option "--type", "TYPE", "Server type (baremetal_0, baremetal_1, ..)", default: 'baremetal_0', attribute_name: :plan
-    option "--facility", "FACILITY CODE", "Facility", default: 'ams1'
     option "--billing", "BILLING", "Billing cycle", default: 'hourly'
-    option "--ssh-key", "PATH", "Path to ssh public key (optional)"
+    option "--ssh-key", "PATH", "Path to ssh public key", default: File.join(Dir.home, '.ssh', 'id_rsa.pub')
     option "--vault-secret", "VAULT_SECRET", "Secret key for Vault (optional)"
     option "--vault-iv", "VAULT_IV", "Initialization vector for Vault (optional)"
     option "--mongodb-uri", "URI", "External MongoDB uri (optional)"

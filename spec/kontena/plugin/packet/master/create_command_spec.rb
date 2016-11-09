@@ -29,6 +29,7 @@ describe Kontena::Plugin::Packet::Master::CreateCommand do
       options = [
         '--token', 'secretone',
         '--project', 'some-id',
+        '--type', 'some-plan',
         '--no-prompt',
         '--skip-auth-provider',
         '--name', 'some_name',

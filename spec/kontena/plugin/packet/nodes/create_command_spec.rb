@@ -29,6 +29,7 @@ describe Kontena::Plugin::Packet::Nodes::CreateCommand do
       options = [
         '--token', 'secretone',
         '--project', 'some-id',
+        '--type', 'some-plan',
         '--facility', 'some_facility'
       ]
       expect(subject).to receive(:provisioner).with(client, 'secretone').and_return(provisioner)

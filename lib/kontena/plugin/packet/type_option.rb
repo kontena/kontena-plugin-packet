@@ -4,7 +4,7 @@ module Kontena::Plugin::Packet
     def self.included(base)
       base.option "--type", "SLUG", "Packet server plan type", attribute_name: :plan
       base.class_eval do
-        def default_project
+        def default_plan
           require 'packet'
 
           client = Packet::Client.new(self.token || (self.respond_to?(:default_token) && self.default_token))

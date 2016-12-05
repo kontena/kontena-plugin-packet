@@ -34,7 +34,7 @@ module Kontena
           end
 
           if respond_to?(:certificate_public_key) && !opts[:ssl_cert]
-            ssl_cert_public = = certificate_public_key(ssl_cert)
+            ssl_cert_public = certificate_public_key(ssl_cert)
           end
 
           name = generate_name

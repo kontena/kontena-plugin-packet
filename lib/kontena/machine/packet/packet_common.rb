@@ -10,7 +10,7 @@ module Kontena
         end
 
         def create_ssh_key(ssh_key)
-          client.create_ssh_key(ssh_key_label(ssh_key))
+          client.create_ssh_key(label: ssh_key_label(ssh_key), key: ssh_key)
         end
 
         def ssh_key_exist?(ssh_key)

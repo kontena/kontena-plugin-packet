@@ -33,6 +33,10 @@ module Kontena
             end
           end
 
+          if respond_to?(:certificate_public_key) && !opts[:ssl_cert]
+            ssl_cert_public = certificate_public_key(ssl_cert)
+          end
+
           name = generate_name
 
           userdata_vars = opts.merge(
@@ -84,6 +88,7 @@ module Kontena
             public_ip: public_ip['address'],
             code: opts[:initial_admin_code],
             provider: 'packet',
+            ssl_certificate: ssl_cert_public,
             version: master_version
           }
         end

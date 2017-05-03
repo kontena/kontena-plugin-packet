@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["info@kontena.io"]
 
   spec.summary       = "Kontena Packet plugin"
-  spec.description   = "Packet provision plugin for Kontena"
+  spec.description   = "Kontena Packet plugin"
   spec.homepage      = "https://github.com/kontena/kontena-plugin-packet"
   spec.license       = "Apache-2.0"
 

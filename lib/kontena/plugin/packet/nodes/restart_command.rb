@@ -8,8 +8,7 @@ module Kontena::Plugin::Packet::Nodes
     option "--project", "PROJECT ID", "Packet project id", required: true
 
     def execute
-      require_relative '../../../machine/packet'
-
+      require 'kontena/machine/packet'
       restarter = Kontena::Machine::Packet::NodeRestarter.new(token)
       restarter.run!(project, name)
     end

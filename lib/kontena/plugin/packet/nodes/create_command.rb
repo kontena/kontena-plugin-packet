@@ -1,7 +1,7 @@
-require_relative '../token_option'
-require_relative '../project_option'
-require_relative '../type_option'
-require_relative '../facility_option'
+require 'kontena/plugin/packet/token_option'
+require 'kontena/plugin/packet/project_option'
+require 'kontena/plugin/packet/type_option'
+require 'kontena/plugin/packet/facility_option'
 
 module Kontena::Plugin::Packet::Nodes
   class CreateCommand < Kontena::Command
@@ -21,8 +21,7 @@ module Kontena::Plugin::Packet::Nodes
     def execute
       require_api_url
       require_current_grid
-
-      require_relative '../../../machine/packet'
+      require 'kontena/machine/packet'
       grid = fetch_grid
       provisioner = provisioner(client, token)
       provisioner.run!(

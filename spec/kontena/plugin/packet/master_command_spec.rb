@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'kontena/plugin/packet_command'
+require 'kontena/plugin/packet/master_command'
 
 describe Kontena::Plugin::Packet::MasterCommand do
 

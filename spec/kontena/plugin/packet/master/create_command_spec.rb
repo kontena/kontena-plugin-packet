@@ -1,5 +1,5 @@
 require 'spec_helper'
-require 'kontena/plugin/packet_command'
+require 'kontena/plugin/packet/master/create_command'
 require 'ostruct'
 
 describe Kontena::Plugin::Packet::Master::CreateCommand do

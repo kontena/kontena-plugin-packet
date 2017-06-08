@@ -1,5 +1,5 @@
 require 'kontena_cli'
-require_relative 'kontena/plugin/packet'
-require_relative 'kontena/plugin/packet_command'
+require 'kontena/plugin/packet'
+require 'kontena/cli/subcommand_loader'
 
-Kontena::MainCommand.register("packet", "Packet specific commands", Kontena::Plugin::PacketCommand)
+Kontena::MainCommand.register("packet", "Packet specific commands", Kontena::Cli::SubcommandLoader.new('kontena/plugin/packet_command'))

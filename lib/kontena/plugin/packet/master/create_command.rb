@@ -1,8 +1,7 @@
-require 'securerandom'
-require_relative '../token_option'
-require_relative '../project_option'
-require_relative '../type_option'
-require_relative '../facility_option'
+require 'kontena/plugin/packet/token_option'
+require 'kontena/plugin/packet/project_option'
+require 'kontena/plugin/packet/type_option'
+require 'kontena/plugin/packet/facility_option'
 
 module Kontena::Plugin::Packet::Master
   class CreateCommand < Kontena::Command
@@ -22,7 +21,8 @@ module Kontena::Plugin::Packet::Master
     option "--version", "VERSION", "Define installed Kontena version", default: 'latest'
 
     def execute
-      require_relative '../../../machine/packet'
+      require 'securerandom'
+      require 'kontena/machine/packet'
 
       provisioner = provisioner(token)
       provisioner.run!(

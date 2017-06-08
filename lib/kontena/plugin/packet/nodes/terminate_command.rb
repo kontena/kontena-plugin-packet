@@ -10,8 +10,7 @@ module Kontena::Plugin::Packet::Nodes
     def execute
       require_api_url
       require_current_grid
-
-      require_relative '../../../machine/packet'
+      require 'kontena/machine/packet'
       grid = client(require_token).get("grids/#{current_grid}")
       destroyer = destroyer(client(require_token), token)
       destroyer.run!(grid, project, name)

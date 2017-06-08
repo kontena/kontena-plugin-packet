@@ -11,7 +11,10 @@ module Kontena::Plugin::Packet::Nodes
     include Kontena::Plugin::Packet::TokenOption
     include Kontena::Plugin::Packet::ProjectOption
 
+    option '--force', :flag, 'Force terminate'
+
     def execute
+      confirm_command(name) unless force?
       require_api_url
       require_current_grid
       require 'kontena/machine/packet'

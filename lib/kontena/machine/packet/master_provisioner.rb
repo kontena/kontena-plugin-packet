@@ -66,7 +66,9 @@ module Kontena
             end
           end
 
-          public_ip = device_public_ip(device)
+          public_ip = spinner "Looking for device public IP" do
+            device_public_ip(device)
+          end
           master_url = "https://#{public_ip['address']}"
 
           Excon.defaults[:ssl_verify_peer] = false

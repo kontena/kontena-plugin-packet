@@ -51,9 +51,22 @@ module Kontena
         end
 
         def device_public_ip(device)
+          start_time = Time.now.to_i
           api_retry "Packet API did not find a public ip address for the device" do
-            device.ip_addresses.find{|ip| ip['public'] && ip['address_family'] == 4}
+            loop do
+              ip = refresh(device).ip_addresses.find{|ip| ip['public'] && ip['address_family'] == 4}
+              return ip if ip
+              sleep 0.5
+              raise 'Timeout while looking for device public ip' if (Time.now.to_i - start_time) > 300
+            end
           end
+        end
+
+        # Reloads the device data from Packet API
+        # @param device [Packet::Device]
+        # @return refreshed_device [Packet::Device]
+        def refresh(device)
+          client.get_device(device.id)
         end
 
         # Retry API requests to recover from random tls errors

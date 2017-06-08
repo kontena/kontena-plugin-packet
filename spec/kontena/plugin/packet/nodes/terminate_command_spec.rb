@@ -32,6 +32,7 @@ describe Kontena::Plugin::Packet::Nodes::TerminateCommand do
 
     it 'passes options to provisioner' do
       options = [
+        '--force',
         '--token', 'secretone',
         '--project', 'some-id',
         'my-node'

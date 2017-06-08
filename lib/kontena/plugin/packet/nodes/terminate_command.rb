@@ -1,11 +1,15 @@
+require 'kontena/plugin/packet/token_option'
+require 'kontena/plugin/packet/project_option'
+
 module Kontena::Plugin::Packet::Nodes
   class TerminateCommand < Kontena::Command
     include Kontena::Cli::Common
     include Kontena::Cli::GridOptions
 
     parameter "NAME", "Node name"
-    option "--token", "TOKEN", "Packet API token", required: true
-    option "--project", "PROJECT ID", "Packet project id", required: true
+
+    include Kontena::Plugin::Packet::TokenOption
+    include Kontena::Plugin::Packet::ProjectOption
 
     def execute
       require_api_url

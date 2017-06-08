@@ -1,7 +1,6 @@
 # Kontena Packet Plugin
 
-This plugin provides support for Packet provisioning to Kontena CLI.
-
+This plugin provides support for (Packet)[https://www.packet.net/] provisioning to Kontena CLI.
 
 ## Contributing
 

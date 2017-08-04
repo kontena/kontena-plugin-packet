@@ -23,6 +23,7 @@ describe Kontena::Plugin::Packet::Nodes::CreateCommand do
       allow(subject).to receive(:require_token).and_return('12345')
       allow(subject).to receive(:fetch_grid).and_return({})
       allow(subject).to receive(:client).and_return(client)
+      allow(subject).to receive(:ssh_key).and_return("abcd")
     end
 
     it 'passes options to provisioner' do

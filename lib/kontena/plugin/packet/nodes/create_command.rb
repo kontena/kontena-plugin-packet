@@ -2,6 +2,7 @@ require 'kontena/plugin/packet/token_option'
 require 'kontena/plugin/packet/project_option'
 require 'kontena/plugin/packet/type_option'
 require 'kontena/plugin/packet/facility_option'
+require 'kontena/plugin/packet/ssh_key_option'
 
 module Kontena::Plugin::Packet::Nodes
   class CreateCommand < Kontena::Command
@@ -11,11 +12,11 @@ module Kontena::Plugin::Packet::Nodes
     include Kontena::Plugin::Packet::ProjectOption
     include Kontena::Plugin::Packet::TypeOption
     include Kontena::Plugin::Packet::FacilityOption
+    include Kontena::Plugin::Packet::SshKeyOption
 
     parameter "[NAME]", "Node name"
 
     option "--billing", "BILLING", "Billing cycle", default: 'hourly'
-    option "--ssh-key", "PATH", "Path to ssh public key", default: File.join(Dir.home, '.ssh', 'id_rsa.pub')
     option "--version", "VERSION", "Define installed Kontena version", default: 'latest'
 
     def execute

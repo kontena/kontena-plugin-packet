@@ -2,6 +2,7 @@ require 'kontena/plugin/packet/token_option'
 require 'kontena/plugin/packet/project_option'
 require 'kontena/plugin/packet/type_option'
 require 'kontena/plugin/packet/facility_option'
+require 'kontena/plugin/packet/ssh_key_option'
 
 module Kontena::Plugin::Packet::Master
   class CreateCommand < Kontena::Command
@@ -10,11 +11,11 @@ module Kontena::Plugin::Packet::Master
     include Kontena::Plugin::Packet::ProjectOption
     include Kontena::Plugin::Packet::TypeOption
     include Kontena::Plugin::Packet::FacilityOption
+    include Kontena::Plugin::Packet::SshKeyOption
 
     option "--name", "[NAME]", "Set master name"
     option "--ssl-cert", "PATH", "SSL certificate file (optional)"
     option "--billing", "BILLING", "Billing cycle", default: 'hourly'
-    option "--ssh-key", "PATH", "Path to ssh public key", default: File.join(Dir.home, '.ssh', 'id_rsa.pub')
     option "--vault-secret", "VAULT_SECRET", "Secret key for Vault (optional)"
     option "--vault-iv", "VAULT_IV", "Initialization vector for Vault (optional)"
     option "--mongodb-uri", "URI", "External MongoDB uri (optional)"

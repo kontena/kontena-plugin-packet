@@ -22,11 +22,9 @@ module Kontena
           label.empty? ? "kontena-ssh-key-#{rand(1..9)}" : label
         end
 
-        # @param [String] keyfile_path Path to ssh keyfile
-        def check_or_create_ssh_key(keyfile_path)
-          abort('Ssh key file not found') unless File.exist?(keyfile_path)
-          abort('Ssh key file not readable') unless File.readable?(keyfile_path)
-          ssh_key = File.read(keyfile_path).strip
+        # @param [String] ssh_key SSH public key
+        def check_or_create_ssh_key(ssh_key)
+          return nil if ssh_key.nil?
           create_ssh_key(ssh_key) unless ssh_key_exist?(ssh_key)
         end
 

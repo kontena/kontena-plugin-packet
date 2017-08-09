@@ -22,6 +22,7 @@ describe Kontena::Plugin::Packet::Master::CreateCommand do
       account: :master
     )
     subject.config.current_server='foo'
+    allow(subject).to receive(:ssh_key).and_return("abcd")
   end
 
   describe '#run' do

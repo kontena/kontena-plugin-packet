@@ -22,7 +22,7 @@ module Kontena
           abort('Operating system coreos_stable does not exist in Packet') unless os = find_os('coreos_stable')
           abort('Device type does not exist in Packet') unless plan = find_plan(opts[:plan])
 
-          check_or_create_ssh_key(File.expand_path(opts[:ssh_key])) if opts[:ssh_key]
+          check_or_create_ssh_key(opts[:ssh_key]) if opts[:ssh_key]
 
           if opts[:ssl_cert]
             abort('Invalid ssl cert') unless File.exists?(File.expand_path(opts[:ssl_cert]))

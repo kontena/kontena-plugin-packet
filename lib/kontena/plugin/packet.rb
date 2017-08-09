@@ -1,7 +1,7 @@
 module Kontena
   module Plugin
     module Packet
-      VERSION = "0.2.7.rc1"
+      VERSION = "0.2.6"
     end
   end
 end

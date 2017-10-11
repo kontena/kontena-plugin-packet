@@ -4,7 +4,7 @@ module Kontena::Plugin::Packet
       base.option "--token", "TOKEN", "Packet API token", environment_variable: 'PACKET_TOKEN'
       base.class_eval do
         def default_token
-          Kontena.prompt.ask("Packet API token:", echo: false)
+          Kontena.prompt.mask("Packet API token:")
         end
       end
     end

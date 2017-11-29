@@ -37,7 +37,8 @@ module Kontena::Plugin::Packet::Master
           vault_secret: vault_secret || SecureRandom.hex(24),
           vault_iv: vault_iv || SecureRandom.hex(24),
           initial_admin_code: SecureRandom.hex(16),
-          mongodb_uri: mongodb_uri
+          mongodb_uri: mongodb_uri,
+          name: name
       )
     end
 

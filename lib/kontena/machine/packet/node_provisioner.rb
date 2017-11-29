@@ -29,8 +29,14 @@ module Kontena
             grid_token: opts[:grid_token],
           }
 
+          if !opts[:name]
+            name = generate_name
+          else
+            name = opts[:name]
+          end
+
           device = project.new_device(
-            hostname: generate_name,
+            hostname: name,
             facility: facility.to_hash,
             operating_system: os.to_hash,
             plan: plan.to_hash,

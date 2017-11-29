@@ -34,7 +34,8 @@ module Kontena::Plugin::Packet::Nodes
         ssh_key: ssh_key,
         plan: plan,
         facility: facility,
-        version: version
+        version: version,
+        name: name
       )
     end
 

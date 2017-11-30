@@ -37,11 +37,7 @@ module Kontena
             ssl_cert_public = certificate_public_key(ssl_cert)
           end
 
-          if !opts[:name]
-            name = generate_name
-          else
-            name = opts[:name]
-          end
+          name = opts[:name] || generate_name
 
           userdata_vars = opts.merge(
             ssl_cert: ssl_cert,

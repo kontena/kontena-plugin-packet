@@ -29,11 +29,7 @@ module Kontena
             grid_token: opts[:grid_token],
           }
 
-          if !opts[:name]
-            name = generate_name
-          else
-            name = opts[:name]
-          end
+          name = opts[:name] || generate_name
 
           device = project.new_device(
             hostname: name,
